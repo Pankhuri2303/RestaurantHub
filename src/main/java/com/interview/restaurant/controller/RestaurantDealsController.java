@@ -3,7 +3,7 @@ package com.interview.restaurant.controller;
 
 import com.interview.restaurant.response.RestaurantDeals;
 import com.interview.restaurant.service.RestaurantDealsService;
-import org.springframework.validation.annotation.Validated;
+import com.interview.restaurant.validator.ValidTimeOfDay;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,16 +21,11 @@ public class RestaurantDealsController {
         this.restaurantDealsService = restaurantDealsService;
     }
 
-    @Validated
     @RequestMapping(
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE
     )
-    public List<RestaurantDeals> getDeals(@RequestParam(value="timeOfDay") String timeOfDay) {
-        // Implementation to retrieve and return restaurant deals
-        return restaurantDealsService.getDealsForTimeOfDay(timeOfDay); // Placeholder return statement
+    public List<RestaurantDeals> getDeals(@RequestParam(value = "timeOfDay") @ValidTimeOfDay String timeOfDay) {
+        return restaurantDealsService.getDealsForTimeOfDay(timeOfDay);
     }
-
-
-
 }
