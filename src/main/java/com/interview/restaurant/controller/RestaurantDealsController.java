@@ -28,4 +28,5 @@ public class RestaurantDealsController {
     public List<RestaurantDeals> getDeals(@RequestParam(value = "timeOfDay") @ValidTimeOfDay String timeOfDay) {
         return restaurantDealsService.getDealsForTimeOfDay(timeOfDay);
     }
+
 }
