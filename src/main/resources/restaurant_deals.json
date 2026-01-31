@@ -1,0 +1,29 @@
+
+  [
+    {
+      "restaurantObjectId": "DEA567C5-AAAA-3C03-FF00-E3B24909BE00",
+      "restaurantName": "Pasta Palace",
+      "dealObjectId": "DEA567C5-0000-3C03-FF00-E3B24909BE00",
+      "restaurantAddress1": "123 Noodle St, Flavor Town",
+      "restaurantSuburb": "Gourmet City",
+      "discount": "50",
+      "dineIn": "false",
+      "lightning": "true",
+      "restaurantOpen": "3:00pm",
+      "restaurantClose": "9:00pm",
+      "qtyLeft": "5"
+    },
+    {
+      "restaurantObjectId": "DEA567C5-AAAA-3C03-FF00-E3B24909BE00",
+      "restaurantName": "Mexican Palace",
+      "dealObjectId": "DEA567C5-0000-3C03-FF00-E3B24909BE00",
+      "restaurantAddress1": "123 Adelaide St, Bluey Town",
+      "restaurantSuburb": "Brisbane City",
+      "discount": "20",
+      "dineIn": "true",
+      "lightning": "false",
+      "restaurantOpen": "2:00pm",
+      "restaurantClose": "5:00pm",
+      "qtyLeft": "2"
+    }
+  ]
