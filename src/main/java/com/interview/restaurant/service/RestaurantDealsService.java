@@ -31,12 +31,15 @@ public class RestaurantDealsService {
     }
 
     private List<RestaurantDeals> getFilteredDeals(String timeOfDay, List<RestaurantDeals> allDeals) {
-        log.info("Parsing restaurant deals for time of day: {}", timeOfDay);
+        log.info("Filtering restaurant deals for time of day: {}", timeOfDay);
 
-        return allDeals.stream()
+        List<RestaurantDeals> filteredDeals =  allDeals.stream()
                 .filter(deal -> isDealActiveAtTime(deal, timeOfDay))
                 .toList();
 
+        log.info("Found {} active deals at {}", filteredDeals.size(), timeOfDay);
+
+        return filteredDeals;
     }
 
     private boolean isDealActiveAtTime(RestaurantDeals deal, String timeOfDay) {
@@ -44,6 +47,9 @@ public class RestaurantDealsService {
             LocalTime dealRequestedTime = LocalTime.parse(timeOfDay.toUpperCase(), formatter);
             LocalTime dealStartTime = LocalTime.parse(deal.getRestaurantOpen().toUpperCase(), formatter);
             LocalTime dealEndTime = LocalTime.parse(deal.getRestaurantClose().toUpperCase(), formatter);
+
+            log.debug("Checking deal: {} | Requested Time: {} | Start Time: {} | End Time: {}",
+                    deal.getRestaurantName(), dealRequestedTime,  dealStartTime, dealEndTime);
 
             if (dealEndTime.isBefore(dealStartTime)) {
                 return !dealRequestedTime.isBefore(dealStartTime) || !dealRequestedTime.isAfter(dealEndTime);

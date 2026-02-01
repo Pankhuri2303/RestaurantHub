@@ -26,6 +26,11 @@ public class PeakTimeForDealsService {
     public PeakTime getPeakTimeForDeals() {
         List<RestaurantDeals> deals = restaurantDealsDb.getAllDealsFromDB();
 
+        if (deals.isEmpty()) {
+            log.warn("No restaurant deals found in database. Returning empty peak time.");
+            return new PeakTime();
+        }
+
         return getPeakTime(deals);
     }
 
@@ -39,6 +44,7 @@ public class PeakTimeForDealsService {
 
                 // Handle case where restaurant closes past midnight (next day)
                 if (closeMinute <= openMinute) {
+
                     for (int minute = openMinute; minute < 1440; minute++) {
                         activeDealsPerMinute[minute]++;
                     }
@@ -53,13 +59,20 @@ public class PeakTimeForDealsService {
                 }
 
             } catch (Exception e) {
-                log.error("Invalid time format for deal: {}. Skipping this deal.", deal, e);
+                log.error("Invalid time format for restaurant: {} (Open: '{}', Close: '{}'). Skipping. Error: {}",
+                        deal.getRestaurantName(), deal.getRestaurantOpen(), deal.getRestaurantClose(), e.getMessage());
             }
         }
 
         int maxActiveDeals = calculateMaxActiveDeals(activeDealsPerMinute);
 
-        return calculatePeakTime(activeDealsPerMinute, maxActiveDeals);
+        PeakTime peakTime = calculatePeakTime(activeDealsPerMinute, maxActiveDeals);
+
+        log.info("Peak time calculated: {} - {} with {} active deals",
+                peakTime.getPeakTimeStart(), peakTime.getPeakTimeEnd(), maxActiveDeals);
+
+        return peakTime;
+
     }
 
     private PeakTime calculatePeakTime(int[] activeDealsPerMinute, int maxActiveDeals) {
